@@ -1,48 +1,40 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <img alt="Vue logo" src="./assets/logo.png" />
+  <HelloWorld msg="Welcome to Your Vue.js App" />
   {{ message }}
-  <ul>
-    <li v-for="wine in wines" :key="wine.id">
-      <h2>{{ wine.title }}</h2>
-      <button @click="deleteAndUpdateCache(wine.id)">delete this wine</button>
+  <ul class="flex m-auto">
+    <li v-for="burger in burgers" :key="burger.id">
+      <h2>{{ burger.name }}</h2>
+      <button @click="alert">
+        delete this wine
+      </button>
     </li>
   </ul>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import { ref } from 'vue'
-import { useQuery, useResult, useMutation } from '@vue/apollo-composable'
-import allWinesQuery from './graphql/allWines.query.gql'
-import deleteWineMutation from './graphql/deleteWine.mutation.gql'
+import HelloWorld from "./components/HelloWorld.vue";
+import { ref } from "vue";
+import { useQuery, useResult, useMutation } from "@vue/apollo-composable";
+import allBurgersQuery from "./graphql/burgers.query.gql";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     HelloWorld
   },
   setup() {
-    const message = ref('Hello Jason!')
-    const { result } = useQuery(allWinesQuery)
-    const wines = useResult(result, null, data => data.allWines)
+    const message = ref("Hello Jason!");
+    const { result } = useQuery(allBurgersQuery);
+    const burgers = useResult(result, null, (data) => data.burgers);
 
-    const { mutate: deleteWine } = useMutation(deleteWineMutation)
-
-    function deleteAndUpdateCache(id) {
-      deleteWine({ id }, {
-      update: (store, {}) => {
-        const data = store.readQuery({query: allWinesQuery})
-        const updatedData = data.allWines.filter(w => w.id !== id)
-        store.writeQuery({query: allWinesQuery, data: { allWines: updatedData}})
-      }
-    });
-      // TODO update the cache
+    function alert() {
+      console.log("hello there");
     }
 
-    return { message, wines, deleteAndUpdateCache }
-  },
-}
+    return { message, burgers, alert };
+  }
+};
 </script>
 
 <style>

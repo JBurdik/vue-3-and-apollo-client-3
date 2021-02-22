@@ -1,0 +1,7 @@
+query burgers {
+  burgers {
+    id
+    name
+    price
+  }
+}

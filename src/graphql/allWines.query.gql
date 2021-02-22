@@ -1,8 +1,0 @@
-query allWines {
-  allWines {
-    id
-    title
-    description
-    variety
-  }
-}
